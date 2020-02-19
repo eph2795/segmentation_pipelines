@@ -1,0 +1,3 @@
+[submodule "stack_segmentation"]
+	path = stack_segmentation
+	url = https://github.com/eph2795/stack_segmentation.git
