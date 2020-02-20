@@ -12,6 +12,7 @@ import torch
 
 from stack_segmentation.stack import Stack, handle_batch
 from stack_segmentation.training import make_model
+from stack_segmentation.io import image_process_basic
 
 
 def predict_on_patches(model, patches, batch_size, device, threshold):
@@ -24,6 +25,7 @@ def predict_on_patches(model, patches, batch_size, device, threshold):
     offset = 0
     for i in range(batch_num):
         x = X[i * batch_size: (i + 1) * batch_size]
+        x = image_process_basic(x)
         preds = handle_batch(model=model, item=x, device=device, threshold=threshold)
         for j, pred in enumerate(preds):
             patches[offset + j]['predictions'] = pred
