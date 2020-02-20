@@ -63,7 +63,7 @@ def assembly(H, W, D, patches):
 def inference_loop(
         input_path,
         model,
-        patch_sizes,
+        patch_size,
         batch_size=1,
         device='cpu',
         threshold=0.5
@@ -85,7 +85,7 @@ def inference_loop(
                 'features': image,
                 'coordinates': [0, 0, 0]
             }
-            patches = slice_up(data, H, W, D, patch_sizes)
+            patches = slice_up(data, H, W, D, (patch_size, patch_size, 1))
             patches = predict_on_patches(model, patches, batch_size, device, threshold)
             pred = assembly(H, W, D, patches)
             output = np.where(pred, 0, 255).astype(np.uint8)
