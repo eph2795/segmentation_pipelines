@@ -40,21 +40,24 @@ def parse_args(defaults):
                         help='Путь к стекам, которые требуется сегментировать')
     parser.add_argument('--device',
                         type=str,
-                        default=defaults.get('cpu'),
+                        default=defaults.get('device'),
                         help='На каком устройстве будет производиться расчет: "cpu" или "cuda"')
     parser.add_argument('--patch_size',
                         type=int,
-                        default=defaults.get('patch_size'))
+                        default=defaults.get('patch_size'),
+                        help='Размер минимального фрагмента для сегментации')
     parser.add_argument('--batch_size',
                         type=int,
-                        default=defaults.get('batch_size'))
+                        default=defaults.get('batch_size'),
+                        help='Количество фрагментов, которые единовременно проходят через сеть')
     parser.add_argument('--num_workers',
                         type=int,
-                        default=defaults.get('num_workers'))
+                        default=defaults.get('num_workers'),
+                        help="Число процессов-worker'ов в dataloader'e")
     args = parser.parse_args()
     return {
-        'model_path': args.model,
-        'input_path': args.input,
+        'model_path': args.model_path,
+        'input_path': args.input_path,
         'device': args.device,
         'patch_size': args.patch_size,
         'batch_size': args.batch_size,
@@ -67,8 +70,9 @@ def main():
         'batch_size': 4,
         'num_workers': 0,
         'patch_size': 128,
-        'input_path': '/opt/input',
-        'model_path': 'opt/model/model.torch'
+        'input_path': '/mnt/input',
+        'model_path': '/mnt/model/model.torch',
+        'device': 'cpu'
     }
     args = parse_args(defaults)
     inference(**args)

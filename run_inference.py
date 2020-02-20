@@ -56,7 +56,8 @@ if __name__ == '__main__':
         'num_workers': 0,
         'patch_size': 128,
         'input_path': '/home/elavrukhin/Study/binary_data/test_stack',
-        'model_path': '/home/elavrukhin/Study/segmentation_pipelines/models/model.torch'
+        'model_path': '/home/elavrukhin/Study/segmentation_pipelines/models/model.torch',
+        'device': 'cpu'
     }
     args = parse_args(defaults)
     main(**args)
