@@ -24,7 +24,7 @@ def predict_on_patches(model, patches, batch_size, device, threshold):
     offset = 0
     for i in range(batch_num):
         x = X[i * batch_size: (i + 1) * batch_size]
-        preds = handle_batch(model, x, device, threshold)
+        preds = handle_batch(model=model, item=x, device=device, threshold=threshold)
         for j, pred in enumerate(preds):
             patches[offset + j]['predictions'] = pred
         offset += batch_size
@@ -85,9 +85,13 @@ def inference_loop(
                 'features': image,
                 'coordinates': [0, 0, 0]
             }
-            patches = slice_up(data, H, W, D, (patch_size, patch_size, 1))
-            patches = predict_on_patches(model, patches, batch_size, device, threshold)
-            pred = assembly(H, W, D, patches)
+            patches = slice_up(data=data, H=H, W=W, D=D, patch_sizes=(patch_size, patch_size, 1))
+            patches = predict_on_patches(model=model,
+                                         patches=patches,
+                                         batch_size=batch_size,
+                                         device=device,
+                                         threshold=threshold)
+            pred = assembly(H=H, W=W, D=D, patches=patches)
             output = np.where(pred, 0, 255).astype(np.uint8)
             imageio.imwrite(os.path.join(output_path, 'preds{:04}.bmp'.format(i)), output)
 
@@ -101,7 +105,11 @@ def inference(model_path, input_path, device, patch_size, batch_size, num_worker
     model.load_state_dict(torch.load(model_path, map_location=device))
 
     if num_workers == 0:
-        inference_loop(input_path, model, patch_size, batch_size, device)
+        inference_loop(input_path=input_path,
+                       model=model,
+                       patch_size=patch_size,
+                       batch_size=batch_size,
+                       device=device)
     else:
         stack = Stack.read_from_source(input_path, has_targets=False)
         predicted_stack = stack.apply(model,
