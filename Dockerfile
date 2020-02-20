@@ -12,5 +12,6 @@ RUN pip install -r docker_requirements.txt
 
 COPY count.py /inference/count.py
 COPY inference.py /inference/inference.py
+COPY args_parse.py /inference/args_parse.py
 COPY stack_segmentation /inference/stack_segmentation
 
