@@ -3,7 +3,7 @@ import os
 
 import docker
 
-from inference import parse_args
+from args_parse import parse_args
 
 
 def main(model_path, input_path, device, patch_size, batch_size, num_workers):
