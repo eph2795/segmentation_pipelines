@@ -35,7 +35,7 @@ def main(model_path, input_path, device, patch_size, batch_size, num_workers):
         detach=True,
         **optional
     )
-    print('Container id: {id}'.format(id=container.id)
+    print('Container id: {id}'.format(id=container.id))
     try:
         for t in container.attach(stdout=True, stream=True, logs=True):
             print(t.decode('utf-8'))
