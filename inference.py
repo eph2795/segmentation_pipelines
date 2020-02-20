@@ -55,9 +55,7 @@ def assembly(H, W, D, patches):
     for patch in patches:
         selector = tuple(slice(x, x + dx, 1) for x, dx in zip(patch['coordinates'],
                                                               patch['features'].shape))
-        for data_type, data in patch.items():
-            if data_type == 'predictions':
-                pred[selector] = data
+        pred[selector] = patch['predictions'][:, :, np.newaxis]
 
     return pred
 
