@@ -79,7 +79,7 @@ def inference_loop(
 
     model.eval()
     with torch.no_grad():
-        for i, f in tqdm(enumerate(files), mininterval=10, maxinterval=20):
+        for i, f in tqdm(enumerate(files), total=len(files), mininterval=10, maxinterval=20):
             image = imageio.imread(f)[:, :, np.newaxis]
             data = {
                 'features': image,
