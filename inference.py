@@ -25,7 +25,7 @@ def predict_on_patches(model, patches, batch_size, device, threshold):
     offset = 0
     for i in range(batch_num):
         x = X[i * batch_size: (i + 1) * batch_size]
-        x = image_process_basic(x)
+        x = image_process_basic(x).astype(np.float32)
         preds = handle_batch(model=model, item=x, device=device, threshold=threshold)
         for j, pred in enumerate(preds):
             patches[offset + j]['predictions'] = pred
