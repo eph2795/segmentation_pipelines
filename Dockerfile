@@ -10,6 +10,7 @@ RUN apt-get install -y libgtk2.0-dev
 COPY docker_requirements.txt /inference/docker_requirements.txt
 RUN pip install -r docker_requirements.txt
 
+COPY inference.py /inference/count.py
 COPY inference.py /inference/inference.py
 COPY stack_segmentation /inference/stack_segmentation
 
