@@ -10,8 +10,8 @@ def main(model_path, input_path, device, patch_size, batch_size, num_workers):
     optional = dict()
     model_path, model_name = os.path.split(model_path)
     input_path, input_name = os.path.split(input_path)
-    if device.startswith('cuda'):
-        optional['runtime'] = 'nvidia'
+    # if device.startswith('cuda'):
+    #     optional['runtime'] = 'nvidia'
     volume_bindings = {
         model_path: {'bind': '/mnt/model', 'mode': 'ro'},
         input_path: {'bind': '/mnt/input', 'mode': 'rw'}
