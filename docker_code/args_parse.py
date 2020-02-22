@@ -29,6 +29,7 @@ def parse_args(defaults):
                         type=int,
                         default=defaults.get('num_workers'),
                         help="Число процессов-worker'ов в dataloader'e")
+    parser.add_argument('--test', action='store_true')
     args = parser.parse_args()
     return {
         'model_path': args.model_path,
@@ -36,5 +37,6 @@ def parse_args(defaults):
         'device': args.device,
         'patch_size': args.patch_size,
         'batch_size': args.batch_size,
-        'num_workers': args.num_workers
+        'num_workers': args.num_workers,
+        'test': args.test
     }

@@ -3,10 +3,10 @@ import os
 
 import docker
 
-from args_parse import parse_args
+from docker_code.args_parse import parse_args
 
 
-def main(model_path, input_path, device, patch_size, batch_size, num_workers):
+def main(model_path, input_path, device, patch_size, batch_size, num_workers, test):
     optional = dict()
     model_path, model_name = os.path.split(model_path)
     input_path, input_name = os.path.split(input_path)
@@ -16,6 +16,17 @@ def main(model_path, input_path, device, patch_size, batch_size, num_workers):
         model_path: {'bind': '/mnt/model', 'mode': 'ro'},
         input_path: {'bind': '/mnt/input', 'mode': 'rw'}
     }
+    if test:
+        command = ['python', '-u', 'count.py']
+        print('Test mode "on"; start counting!')
+    else:
+        command = ['python', '-u', 'inference.py',
+                   '--model', '/mnt/model/{model_name}'.format(model_name=model_name),
+                   '--input', '/mnt/input/{input_name}'.format(input_name=input_name),
+                   '--device', device,
+                   '--patch_size', str(patch_size),
+                   '--batch_size', str(batch_size),
+                   '--num_workers', str(num_workers)]
 
     print('Model volume location: {model_path}'.format(model_path=model_path))
     print('Input volume location: {input_path}'.format(input_path=input_path))
@@ -23,14 +34,7 @@ def main(model_path, input_path, device, patch_size, batch_size, num_workers):
     client = docker.from_env()
     container = client.containers.run(
         image='segmentation:basic',
-        # command=['python', '-u', 'count.py'],
-        command=['python', '-u', 'inference.py',
-                 '--model', '/mnt/model/{model_name}'.format(model_name=model_name),
-                 '--input', '/mnt/input/{input_name}'.format(input_name=input_name),
-                 '--device', device,
-                 '--patch_size', str(patch_size),
-                 '--batch_size', str(batch_size),
-                 '--num_workers', str(num_workers)],
+        command=command,
         volumes=volume_bindings,
         detach=True,
         **optional

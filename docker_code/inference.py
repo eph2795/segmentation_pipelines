@@ -9,10 +9,10 @@ import numpy as np
 
 import torch
 
-from args_parse import parse_args
-from stack_segmentation.stack import Stack, handle_batch
-from stack_segmentation.training import make_model
-from stack_segmentation.io import image_process_basic
+from docker_code.args_parse import parse_args
+from docker_code.stack_segmentation.stack import Stack, handle_batch
+from docker_code.stack_segmentation.training import make_model
+from docker_code.stack_segmentation.io import image_process_basic
 
 
 def predict_on_patches(model, patches, batch_size, device, threshold):
