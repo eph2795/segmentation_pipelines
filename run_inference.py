@@ -6,7 +6,7 @@ import docker
 from docker_code.args_parse import parse_args
 
 
-def main(model_path, input_path, device, patch_size, batch_size, num_workers, test):
+def main(model_path, input_path, device, patch_size, batch_size, num_workers, test, **kwags):
     optional = dict()
     model_path, model_name = os.path.split(model_path)
     input_path, input_name = os.path.split(input_path)
@@ -17,10 +17,10 @@ def main(model_path, input_path, device, patch_size, batch_size, num_workers, te
         input_path: {'bind': '/mnt/input', 'mode': 'rw'}
     }
     if test:
-        command = ['python', '-u', 'count.py']
+        command = ['python', '-u', 'docker_code/count.py']
         print('Test mode "on"; start counting!')
     else:
-        command = ['python', '-u', 'inference.py',
+        command = ['python', '-u', 'docker_code/inference.py',
                    '--model', '/mnt/model/{model_name}'.format(model_name=model_name),
                    '--input', '/mnt/input/{input_name}'.format(input_name=input_name),
                    '--device', device,

@@ -9,10 +9,10 @@ import numpy as np
 
 import torch
 
-from docker_code.args_parse import parse_args
-from docker_code.stack_segmentation.stack import Stack, handle_batch
-from docker_code.stack_segmentation.training import make_model
-from docker_code.stack_segmentation.io import image_process_basic
+from args_parse import parse_args
+from stack_segmentation.stack import Stack, handle_batch
+from stack_segmentation.training import make_model
+from stack_segmentation.io import image_process_basic
 
 
 def predict_on_patches(model, patches, batch_size, device, threshold):
@@ -99,7 +99,7 @@ def inference_loop(
         torch.cuda.synchronize()
 
 
-def inference(model_path, input_path, device, patch_size, batch_size, num_workers):
+def inference(model_path, input_path, device, patch_size, batch_size, num_workers, **kwargs):
     model_config = {'source': 'basic'}
     model = make_model(**model_config).to(device)
     model.load_state_dict(torch.load(model_path, map_location=device))
